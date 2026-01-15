@@ -1,1 +1,25 @@
+[
+  {
+    "slug": "nyheder24",
+    "rss_url": "https://www.nyheder24.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#990000",
+    "width": 1200,
+    "height": 90,
+    "limit": 10,
+    "fps": 20,
+    "seconds": 20,
+    "px_per_frame": 5
+  },
+  {
+    "slug": "dagens",
+    "rss_url": "https://www.dagens.se/feed/klaviyo/",
+    "bg_hex": "#E1AF24",
+    "width": 1200,
+    "height": 90,
+    "limit": 10,
+    "fps": 20,
+    "seconds": 20,
+    "px_per_frame": 5
+  }
+]
 
