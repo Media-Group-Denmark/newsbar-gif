@@ -26,13 +26,13 @@
   },
   {
     "slug": "altomkendte",
-    "rss_url": "https://altomkendte.dk/feeds/rss/klaviyo/latest-news/",
+    "rss_url": "https://altomkendte.dk/wp-json/custom/v1/klaviyo/?1",
     "bg_hex": "#FF005B"
   },
   {
     "slug": "trend",
-    "rss_url": "https://trend.dk/feeds/rss/klaviyo/latest-news/",
-    "bg_hex": "#990000"
+    "rss_url": "https://www.trend.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#252525"
   },
   {
     "slug": "dagensse",
@@ -41,17 +41,17 @@
   },
   {
     "slug": "dagensno",
-    "rss_url": "https://dagens.no/feeds/rss/klaviyo/latest-news/",
-    "bg_hex": "#990000"
+    "rss_url": "https://www.dagens.no/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#C32D27"
   },
   {
     "slug": "senest",
-    "rss_url": "https://senest.dk/feeds/rss/klaviyo/latest-news/",
-    "bg_hex": "#990000"
+    "rss_url": "https://www.senest.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#FD0B0B"
   },
   {
     "slug": "dagenscom",
-    "rss_url": "https://senest.dk/feeds/rss/klaviyo/latest-news/",
-    "bg_hex": "#990000"
+    "rss_url": "https://www.dagens.com/feed/klaviyo",
+    "bg_hex": "#354CA0"
   }
 ]
