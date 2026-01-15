@@ -26,7 +26,8 @@ def build_text_line(titles):
 
 def make_gif(text):
     width, height = 1200, 90
-    bg, fg = (15, 15, 15), (255, 255, 255)
+    bg, fg = (153, 0, 0), (255, 255, 255)
+
 
     font = ImageFont.truetype(
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 34
