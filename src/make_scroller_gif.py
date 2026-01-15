@@ -13,8 +13,6 @@ def clean_text(s: str) -> str:
 
 def hex_to_rgb(hex_color: str):
     h = (hex_color or "#000000").lstrip("#")
-    if len(h) != 6:
-        return (0, 0, 0)
     return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16))
 
 def fetch_titles(rss_url: str, limit: int) -> list[str]:
@@ -24,93 +22,63 @@ def fetch_titles(rss_url: str, limit: int) -> list[str]:
         title = clean_text(getattr(item, "title", ""))
         if title:
             titles.append(title)
-    if not titles:
-        titles = ["Ingen nyheder lige nu"]
-    return titles
+    return titles or ["Ingen nyheder lige nu"]
 
 def build_text_line(titles: list[str]) -> str:
     return "  -  ".join(titles) + "  -  "
 
-def make_scroller_gif(
-    text_line: str,
-    out_path: str,
-    width: int,
-    height: int,
-    fps: int,
-    seconds: float,
-    px_per_frame: int,
-    bg_rgb,
-    fg_rgb=(255, 255, 255),
-) -> None:
-    font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-    font = ImageFont.truetype(font_path, 34)
+def make_gif(text: str, out_path: str, bg_rgb, fg_rgb=(255, 255, 255)):
+    width, height = 1200, 90
 
-    # Mål tekstbredde
-    tmp = Image.new("RGB", (10, 10), bg_rgb)
-    dtmp = ImageDraw.Draw(tmp)
+    font = ImageFont.truetype(
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 34
+    )
 
-    text_w = int(dtmp.textlength(text_line, font=font)) or 1
-    repeat = max(2, math.ceil((width * 3) / text_w))
-    long_text = text_line * repeat
+    temp = Image.new("RGB", (10, 10), bg_rgb)
+    d = ImageDraw.Draw(temp)
 
-    long_w = int(dtmp.textlength(long_text, font=font))
-    strip = Image.new("RGB", (long_w, height), bg_rgb)
+    text_width = int(d.textlength(text, font=font)) or 1
+    repeat = max(2, math.ceil((width * 3) / text_width))
+    long_text = text * repeat
+    long_width = int(d.textlength(long_text, font=font))
+
+    strip = Image.new("RGB", (long_width, height), bg_rgb)
     ds = ImageDraw.Draw(strip)
 
     bbox = ds.textbbox((0, 0), "Ag", font=font)
-    text_h = bbox[3] - bbox[1]
-    y = (height - text_h) // 2
-
+    y = (height - (bbox[3] - bbox[1])) // 2
     ds.text((0, y), long_text, font=font, fill=fg_rgb)
 
-    total_frames = int(fps * seconds)
     frames = []
     offset = 0
-    max_x = max(1, long_w - width)
+    max_x = max(1, long_width - width)
 
-    for _ in range(total_frames):
+    # ca. 20 sek animation
+    for _ in range(400):
         x = offset % max_x
         frame = strip.crop((x, 0, x + width, height))
         frames.append(frame)
-        offset += px_per_frame
+        offset += 6
 
-    duration = 1.0 / fps
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    imageio.mimsave(out_path, frames, format="GIF", duration=duration, loop=0)
+    imageio.mimsave(out_path, frames, duration=0.05, loop=0)
 
 def main():
-    # Læs sites.json
     with open("sites.json", "r", encoding="utf-8") as f:
         sites = json.load(f)
 
     for site in sites:
         slug = site["slug"]
         rss_url = site["rss_url"]
-        bg_rgb = hex_to_rgb(site.get("bg_hex", "#000000"))
+        bg_rgb = hex_to_rgb(site.get("bg_hex", "#990000"))
 
-        width = int(site.get("width", 1200))
-        height = int(site.get("height", 90))
-        limit = int(site.get("limit", 10))
-        fps = int(site.get("fps", 20))
-        seconds = float(site.get("seconds", 20))
-        px_per_frame = int(site.get("px_per_frame", 5))
-
-        titles = fetch_titles(rss_url, limit=limit)
-        line = build_text_line(titles)
+        titles = fetch_titles(rss_url, limit=int(site.get("limit", 10)))
+        text = build_text_line(titles)
 
         out_path = os.path.join("docs", slug, "ticker.gif")
-        make_scroller_gif(
-            text_line=line,
-            out_path=out_path,
-            width=width,
-            height=height,
-            fps=fps,
-            seconds=seconds,
-            px_per_frame=px_per_frame,
-            bg_rgb=bg_rgb,
-        )
+        make_gif(text, out_path, bg_rgb)
 
-        print(f"Built: {out_path}")
+        print("Built:", out_path)
 
 if __name__ == "__main__":
     main()
