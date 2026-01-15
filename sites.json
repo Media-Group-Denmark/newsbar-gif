@@ -2,24 +2,56 @@
   {
     "slug": "nyheder24",
     "rss_url": "https://www.nyheder24.dk/feeds/rss/klaviyo/latest-news/",
-    "bg_hex": "#990000",
-    "width": 1200,
-    "height": 90,
-    "limit": 10,
-    "fps": 20,
-    "seconds": 20,
-    "px_per_frame": 5
+    "bg_hex": "#990000"
   },
   {
-    "slug": "dagens.se",
-    "rss_url": "https://www.dagens.se/feed/klaviyo/",
-    "bg_hex": "#E1AF24",
-    "width": 1200,
-    "height": 90,
-    "limit": 10,
-    "fps": 20,
-    "seconds": 20,
-    "px_per_frame": 5
+    "slug": "denoffentlige",
+    "rss_url": "https://www.denoffentlige.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#97E5EB"
+  },
+  {
+    "slug": "dagensdk",
+    "rss_url": "https://www.dagens.dk/feed/klaviyo",
+    "bg_hex": "#EA6D28"
+  },
+  {
+    "slug": "pensionist",
+    "rss_url": "https://pensionist.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#0745C9"
+  },
+  {
+    "slug": "sportfokus",
+    "rss_url": "https://sportfokus.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#FD0B0B"
+  },
+  {
+    "slug": "altomkendte",
+    "rss_url": "https://altomkendte.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#FF005B"
+  },
+  {
+    "slug": "trend",
+    "rss_url": "https://trend.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#990000"
+  },
+  {
+    "slug": "dagensse",
+    "rss_url": "https://www.dagens.se/feed/klaviyo",
+    "bg_hex": "#E1AE25"
+  },
+  {
+    "slug": "dagensno",
+    "rss_url": "https://dagens.no/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#990000"
+  },
+  {
+    "slug": "senest",
+    "rss_url": "https://senest.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#990000"
+  },
+  {
+    "slug": "dagenscom",
+    "rss_url": "https://senest.dk/feeds/rss/klaviyo/latest-news/",
+    "bg_hex": "#990000"
   }
 ]
-
