@@ -49,10 +49,10 @@ def make_gif(text):
 
     frames = []
     offset = 0
-    for _ in range(200):
+    for _ in range(800):
         frame = strip.crop((offset, 0, offset + width, height))
         frames.append(frame)
-        offset = (offset + 6) % (long_width - width)
+        offset = (offset + 4) % (long_width - width)
 
     os.makedirs("docs", exist_ok=True)
     imageio.mimsave("docs/ticker.gif", frames, duration=0.05)
