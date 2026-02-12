@@ -32,36 +32,21 @@ def build_text_line(titles: list[str]) -> str:
     return "  -  ".join(titles) + "  -  "
 
 
-def _load_bold_font(size: int) -> ImageFont.FreeTypeFont:
+def _load_font(size: int) -> ImageFont.FreeTypeFont:
+    # Kun ændring: brug Bold-varianten
     bold_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
     regular_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
-    for path in (bold_path, regular_path):
-        try:
-            return ImageFont.truetype(path, size)
-        except OSError:
-            continue
-
-    return ImageFont.load_default()
-
-
-def draw_extra_bold_text(draw, position, text, font, fill):
-    """
-    Tegner teksten flere gange med offsets
-    for markant tykkere effekt.
-    """
-    x, y = position
-
-    # Kraftigere tykkelse
-    for dx in (-2, -1, 0, 1, 2):
-        for dy in (-2, -1, 0, 1, 2):
-            draw.text((x + dx, y + dy), text, font=font, fill=fill)
+    try:
+        return ImageFont.truetype(bold_path, size)
+    except OSError:
+        return ImageFont.truetype(regular_path, size)
 
 
 def make_gif(text: str, out_path: str, bg_rgb, fg_rgb=(255, 255, 255)):
     width, height = 1200, 90
 
-    font = _load_bold_font(size=34)
+    font = _load_font(size=34)
 
     temp = Image.new("RGB", (10, 10), bg_rgb)
     d = ImageDraw.Draw(temp)
@@ -76,8 +61,7 @@ def make_gif(text: str, out_path: str, bg_rgb, fg_rgb=(255, 255, 255)):
 
     bbox = ds.textbbox((0, 0), "Ag", font=font)
     y = (height - (bbox[3] - bbox[1])) // 2
-
-    draw_extra_bold_text(ds, (0, y), long_text, font, fg_rgb)
+    ds.text((0, y), long_text, font=font, fill=fg_rgb)
 
     frames = []
     offset = 0
