@@ -55,7 +55,7 @@ def make_gif(text: str, out_path: str, bg_rgb, fg_rgb=(255, 255, 255)):
 
     # Bedste løsning: ÆGTE bold font + let stroke for ekstra “fed” ticker-look
     font = _load_best_bold_font(size=34)
-    stroke_width = 1  # justér til 2 hvis du vil have den endnu federe
+    stroke_width = 2  # justér til 2 hvis du vil have den endnu federe
 
     temp = Image.new("RGB", (10, 10), bg_rgb)
     d = ImageDraw.Draw(temp)
