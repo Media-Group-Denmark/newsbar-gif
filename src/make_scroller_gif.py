@@ -32,11 +32,7 @@ def build_text_line(titles: list[str]) -> str:
     return "  -  ".join(titles) + "  -  "
 
 
-def _load_best_bold_font(size: int) -> ImageFont.FreeTypeFont:
-    """
-    Best løsning: brug en ægte bold font (DejaVuSans-Bold).
-    Fallback: normal DejaVuSans hvis bold ikke findes på systemet.
-    """
+def _load_bold_font(size: int) -> ImageFont.FreeTypeFont:
     bold_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
     regular_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
@@ -46,16 +42,26 @@ def _load_best_bold_font(size: int) -> ImageFont.FreeTypeFont:
         except OSError:
             continue
 
-    # sidste fallback (meget basic)
     return ImageFont.load_default()
+
+
+def draw_extra_bold_text(draw, position, text, font, fill):
+    """
+    Tegner teksten flere gange med offsets
+    for markant tykkere effekt.
+    """
+    x, y = position
+
+    # Kraftigere tykkelse
+    for dx in (-2, -1, 0, 1, 2):
+        for dy in (-2, -1, 0, 1, 2):
+            draw.text((x + dx, y + dy), text, font=font, fill=fill)
 
 
 def make_gif(text: str, out_path: str, bg_rgb, fg_rgb=(255, 255, 255)):
     width, height = 1200, 90
 
-    # Bedste løsning: ÆGTE bold font + let stroke for ekstra “fed” ticker-look
-    font = _load_best_bold_font(size=34)
-    stroke_width = 2  # justér til 2 hvis du vil have den endnu federe
+    font = _load_bold_font(size=34)
 
     temp = Image.new("RGB", (10, 10), bg_rgb)
     d = ImageDraw.Draw(temp)
@@ -68,23 +74,15 @@ def make_gif(text: str, out_path: str, bg_rgb, fg_rgb=(255, 255, 255)):
     strip = Image.new("RGB", (long_width, height), bg_rgb)
     ds = ImageDraw.Draw(strip)
 
-    bbox = ds.textbbox((0, 0), "Ag", font=font, stroke_width=stroke_width)
+    bbox = ds.textbbox((0, 0), "Ag", font=font)
     y = (height - (bbox[3] - bbox[1])) // 2
 
-    ds.text(
-        (0, y),
-        long_text,
-        font=font,
-        fill=fg_rgb,
-        stroke_width=stroke_width,
-        stroke_fill=fg_rgb,
-    )
+    draw_extra_bold_text(ds, (0, y), long_text, font, fg_rgb)
 
     frames = []
     offset = 0
     max_x = max(1, long_width - width)
 
-    # ca. 20 sek animation
     for _ in range(400):
         x = offset % max_x
         frame = strip.crop((x, 0, x + width, height))
