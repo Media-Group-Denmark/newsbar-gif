@@ -54,5 +54,10 @@
     "slug": "dagenscom",
     "rss_url": "https://www.dagens.com/feed/klaviyo",
     "bg_hex": "#354CA0"
+  },
+  {
+    "slug": "testfamilien",
+    "rss_url": "https://testfamilien.dk/feeds/klaviyo",
+    "bg_hex": "#5EBFC0"
   }
 ]
